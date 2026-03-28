@@ -9,15 +9,26 @@ class CoinInventory
   private array $coins = [];
 
 
+  public function resetInventory(array $coins) : void
+  {
+    $this->coins = [];
+
+    foreach ($coins as $coinValue => $quantity)
+    {
+      $coinEnum = Coin::from($coinValue);
+      $this->addCoins($coinEnum, $quantity);
+    }
+  }
+
   /**
    * @param Coin $coin
    * @param int $quantity
    * @return void
    */
-  public function addCoins(Coin $coin, int $quantity = 1) :void
+  public function addCoins(Coin $coin, int $quantity = 1) : void
   {
     $value = $coin->value;
-    $this->coins[$value] = (isset($this->coins[$value]) ?? 0) + $quantity;
+    $this->coins[$value] = ($this->coins[$value] ?? 0) + $quantity;
   }
 
 
@@ -35,7 +46,11 @@ class CoinInventory
    */
   public function getTotalAmount(): int
   {
-    return array_sum($this->coins);
+    $total = 0;
+    foreach ($this->coins as $coinValue => $quantity) {
+      $total += $coinValue * $quantity;
+    }
+    return $total;
   }
 
 
@@ -47,7 +62,8 @@ class CoinInventory
   {
     $newCoins = $anotherInventory->getCoins();
 
-    foreach ($newCoins as $value => $quantity) {
+    foreach ($newCoins as $value => $quantity)
+    {
       $this->coins[$value] = ($this->coins[$value] ?? 0) + $quantity;
     }
 

@@ -9,6 +9,18 @@ class ItemInventory
   private array $items = [];
 
 
+  public function resetInventory($items)
+  {
+    $this->items = [];
+    foreach ($items as $itemName => $itemData)
+    {
+      $itemEnum = ItemName::from($itemName);
+      $item = new Item($itemEnum, $itemData['price']);
+
+      $this->addItem($item, $itemData['quantity']);
+    }
+  }
+
   /**
    * @param Item $item
    * @param int $quantity
@@ -54,5 +66,14 @@ class ItemInventory
     }
 
     $this->items[$name]['quantity']--;
+  }
+
+
+  /**
+   * @return array
+   */
+  public function getItems() : array
+  {
+    return $this->items;
   }
 }

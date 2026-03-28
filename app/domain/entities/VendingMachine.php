@@ -20,8 +20,8 @@ class VendingMachine
    * @param CoinInventory|null $coinInventory
    * @param ChangeCalculatorDomService|null $changeCalculator
    */
-  public function __construct(CoinInventory|null $operationCoins, ItemInventory|null $itemInventory,
-                              CoinInventory|null $coinInventory, ChangeCalculatorDomService|null $changeCalculator)
+  public function __construct(?CoinInventory $operationCoins = null, ?ItemInventory $itemInventory = null,
+                              ?CoinInventory $coinInventory = null, ?ChangeCalculatorDomService $changeCalculator = null)
   {
     $this->operationCoins = $operationCoins ?? new CoinInventory();
     $this->itemInventory = $itemInventory ?? new ItemInventory();
@@ -29,6 +29,21 @@ class VendingMachine
     $this->changeCalculator = $changeCalculator ?? new ChangeCalculatorDomService();
 
   }
+
+
+  /**
+   * @param $operationCoins
+   * @param $coins
+   * @param $items
+   * @return void
+   */
+  public function resetConfiguration($operationCoins, $coins, $items): void
+  {
+    $this->operationCoins->resetInventory($operationCoins);
+    $this->coinInventory->resetInventory($coins);
+    $this->itemInventory->resetInventory($items);
+  }
+
 
   /**
    * @param Coin $coin
@@ -92,7 +107,6 @@ class VendingMachine
 
     return array_merge([$itemName->value], $change);
   }
-
 
   /**
    * @return CoinInventory
