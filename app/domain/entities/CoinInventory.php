@@ -93,6 +93,28 @@ class CoinInventory
   }
 
 
+  /**
+   * @param array $coins
+   * @return void
+   * @throws Exception
+   */
+  public function decrease(array $coins): void
+  {
+    foreach ($coins as $coin)
+    {
+      $value = $coin->value;
+      if (($this->coins[$value] ?? 0) > 0)
+      {
+        $this->coins[$value] -= 1;
+      }
+      else
+      {
+        throw new \Exception("Cannot remove a coin of value {$value} from inventory");
+      }
+    }
+  }
+
+
   public function getCoins(): array
   {
     return $this->coins;

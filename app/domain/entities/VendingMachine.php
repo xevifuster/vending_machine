@@ -80,10 +80,10 @@ class VendingMachine
 
   /**
    * @param ItemName $itemName
-   * @return array|string[]
+   * @return array
    * @throws Exception
    */
-  public function sellItem(ItemName $itemName)
+  public function sellItem(ItemName $itemName): array
   {
     $item = $this->itemInventory->getItem($itemName->value);
     $intPrice = $item->getPrice() * 100;
@@ -101,11 +101,15 @@ class VendingMachine
 
     $changeAmount = $operationAmount - $intPrice;
 
+    /** @var Coin[] $change */
     $change = $this->changeCalculator->calculateChange($changeAmount, $this->coinInventory);
 
-    $this->coinInventory->decreaseFromValuesArray($change);
+    $this->coinInventory->decrease($change);
 
-    return array_merge([$itemName->value], $change);
+    return [
+      'item' => $item,
+      'change' => $change,
+    ];
   }
 
   /**

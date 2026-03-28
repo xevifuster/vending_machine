@@ -29,11 +29,20 @@ class InputParser
     }
     else if ($input === 'SERVICE')
     {
-      return ['command' => 'resetMachine'];
+      return ['command' => 'resetMachine', 'param' => ' {"coins":{"0.05":10,"0.1":5,"0.25":10,"1":10},"items":{"WATER":
+      {"quantity":5,"price":0.65},"JUICE":{"quantity":10,"price":1},"SODA":{"quantity":15,"price":1.5}}}'];
     }
     else
     {
-      throw new Exception('Unknown input type');
+      if(is_numeric($input))
+      {
+        $message = 'Invalid coin';
+      }
+      else
+      {
+        $message = 'Unknown command';
+      }
+      throw new Exception($message);
     }
   }
 

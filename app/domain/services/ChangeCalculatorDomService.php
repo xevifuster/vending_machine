@@ -2,6 +2,7 @@
 
 namespace app\domain\services;
 
+use app\domain\entities\Coin;
 use app\domain\entities\CoinInventory;
 
 class ChangeCalculatorDomService
@@ -28,17 +29,9 @@ class ChangeCalculatorDomService
 
     $this->search($amount, $coins, [], 0);
 
-    if ($this->bestExact !== null)
-    {
-      return $this->bestExact;
-    }
+    $result = $this->bestExact ?? $this->bestApprox ?? [];
 
-    if ($this->bestApprox !== null)
-    {
-      return $this->bestApprox;
-    }
-
-    return [];
+    return array_map(fn($value) => Coin::from($value), $result);
   }
 
 
