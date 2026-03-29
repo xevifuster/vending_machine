@@ -1,0 +1,7 @@
+services:
+  vending-machine:
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./app/storage:/app/app/storage
