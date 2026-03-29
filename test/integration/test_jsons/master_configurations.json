@@ -1,0 +1,87 @@
+{
+    "exact_purchase": {
+        "operation_coins": {},
+        "coins": {
+            "0.05": 10,
+            "0.1": 5,
+            "0.25": 10,
+            "1": 10
+        },
+        "items": {
+            "SODA": {
+                "quantity": 5,
+                "price": 1.5
+            }
+        }
+    },
+    "refund": {
+        "operation_coins": {},
+        "coins": {
+            "0.05": 10,
+            "0.1": 5,
+            "0.25": 10,
+            "1": 10
+        },
+        "items": {
+            "WATER": {
+                "quantity": 5,
+                "price": 0.65
+            }
+        }
+    },
+    "change_purchase": {
+        "operation_coins": {},
+        "coins": {
+            "0.05": 10,
+            "0.1": 10,
+            "0.25": 10,
+            "1": 10
+        },
+        "items": {
+            "WATER": {
+                "quantity": 5,
+                "price": 0.65
+            }
+        }
+    },
+    "insufficient_change": {
+        "operation_coins": {},
+        "coins": {
+            "0.05": 1,
+            "0.25": 2
+        },
+        "items": {
+            "WATER": {
+                "quantity": 5,
+                "price": 0.65
+            }
+        }
+    },
+    "no_change_coins_available": {
+        "operation_coins": {},
+        "coins": {
+            "1": 5
+        },
+        "items": {
+            "SODA": {
+                "quantity": 5,
+                "price": 1.5
+            }
+        }
+    },
+    "out_of_stock": {
+        "operation_coins": {},
+        "coins": {
+            "0.05": 10,
+            "0.1": 10,
+            "0.25": 10,
+            "1": 10
+        },
+        "items": {
+            "WATER": {
+                "quantity": 2,
+                "price": 0.65
+            }
+        }
+    }
+}
