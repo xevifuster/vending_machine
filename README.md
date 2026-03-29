@@ -118,7 +118,7 @@ The design also allows replacing it with another persistence system (I.e a datab
 Change calculation is implemented as a domain service since it represents business logic that does not naturally belong to a single entity and can evolve independently.
 
 The algorithm uses a **backtracking search** that tries all valid combinations of available coins to find the exact change. It prefers larger coins first (greedy ordering) and stops as soon as an exact solution is found.
-0If exact change cannot be returned due to coin constraints, the system returns the closest possible amount below the expected change.
+If exact change cannot be returned due to coin constraints, the system returns the closest possible amount below the expected change.
 
 ### Application layer 
 
@@ -126,7 +126,7 @@ I have decided to have only one handler in a single Application service to avoid
 Probably, in a larger system, I would separate this into use-case handlers to keep the application services stateless.
 But in this case I founded this way more optimal.
 
-Also, The application service methods that implement use cases have been deliberately defined as private to ensure that they cannot be invoked directly from outside the application layer.
+Also, the application service methods that implement use cases have been deliberately defined as private to ensure that they cannot be invoked directly from outside the application layer.
 Instead, only the handler acts as the public entry point.
 
 ### The SERVICE command
