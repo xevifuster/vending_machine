@@ -72,28 +72,6 @@ class CoinInventory
 
 
   /**
-   * @param array $values
-   * @return void
-   * @throws Exception
-   */
-  public function decreaseFromValuesArray(array $values) :void
-  {
-    foreach ($values as $value)
-    {
-      if($this->coins[$value] > 0)
-      {
-        $this->coins[$value] -= 1;
-      }
-      else
-      {
-        throw new Exception('Cannot remove a '.$value. ' coin from inventory');
-      }
-
-    }
-  }
-
-
-  /**
    * @param array $coins
    * @return void
    * @throws Exception

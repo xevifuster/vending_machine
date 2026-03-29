@@ -3,6 +3,8 @@
 namespace app\domain\entities;
 
 
+use Exception;
+
 enum Coin : int
 {
   case FIVE = 5;
@@ -13,6 +15,7 @@ enum Coin : int
   /**
    * @param float $value
    * @return self
+   * @throws Exception
    */
   public static function coinCentsIntValue(float $value): self
   {
@@ -21,7 +24,7 @@ enum Coin : int
       0.10 => self::TEN,
       0.25 => self::TWENTY_FIVE,
       1.00 => self::ONE_EURO,
-      default => throw new \InvalidArgumentException("Invalid coin"),
+      default => throw new Exception("Invalid coin"),
     };
   }
 

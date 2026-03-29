@@ -47,24 +47,13 @@ class VendingMachine
 
   /**
    * @param Coin $coin
-   * @param int $quantity
    * @return void
    */
-  public function insertCoins(Coin $coin, int $quantity = 1): void
+  public function insertCoin(Coin $coin): void
   {
-    $this->operationCoins->addCoins($coin, $quantity);
+    $this->operationCoins->addCoins($coin);
   }
 
-
-  /**
-   * @param Item $item
-   * @param int $quantity
-   * @return void
-   */
-  public function insertItem(Item $item, int $quantity = 1): void
-  {
-    $this->itemInventory->addItem($item, $quantity);
-  }
 
   /**
    * @return array
@@ -111,6 +100,7 @@ class VendingMachine
       'change' => $change,
     ];
   }
+
 
   /**
    * @return CoinInventory

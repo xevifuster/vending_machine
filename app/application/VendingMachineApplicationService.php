@@ -52,7 +52,7 @@ class VendingMachineApplicationService
   private function insertCoin($amount): void
   {
     $coin = Coin::coinCentsIntValue($amount);
-    $this->vendingMachine->insertCoins($coin);
+    $this->vendingMachine->insertCoin($coin);
 
     $this->saveStatus();
   }
@@ -64,7 +64,15 @@ class VendingMachineApplicationService
    */
   private function selectItem($itemName) : array
   {
-    $itemValidatedName = ItemName::from($itemName);
+    try
+    {
+      $itemValidatedName = ItemName::from($itemName);
+    }
+    catch (\ValueError $e)
+    {
+      throw new Exception('Invalid item');
+    }
+
 
     $resultArray = $this->vendingMachine->sellItem($itemValidatedName);
 
@@ -83,6 +91,7 @@ class VendingMachineApplicationService
   {
     $resultCoins = $this->vendingMachine->moneyRefund();
 
+    $result = [];
     foreach ($resultCoins as $value => $count) {
       for ($i = 0; $i < $count; $i++) {
         $result[] = $value / 100;
