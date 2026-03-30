@@ -118,7 +118,9 @@ The design also allows replacing it with another persistence system (I.e a datab
 Change calculation is implemented as a domain service since it represents business logic that does not naturally belong to a single entity and can evolve independently.
 
 The algorithm uses a **backtracking search** that tries all valid combinations of available coins to find the exact change. It prefers larger coins first (greedy ordering) and stops as soon as an exact solution is found.
-If exact change cannot be returned due to coin constraints, the system returns the closest possible amount below the expected change.
+If exact change cannot be returned due to coin constraints, the system returns the closest possible amount below the expected change. 
+
+I made this decision by looking at the expected inputs/outputs in the problem specification and prioritizing the client's desire to obtain an item over a small monetary loss. It's really frustrating to be thirsty and not be able to buy a bottle of water because the machine can't give you back 10 cents :)
 
 ### Application layer 
 
