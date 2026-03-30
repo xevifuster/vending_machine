@@ -48,6 +48,7 @@ class VendingMachineApplicationService
   /**
    * @param $amount
    * @return void
+   * @throws Exception
    */
   private function insertCoin($amount): void
   {
@@ -109,6 +110,7 @@ class VendingMachineApplicationService
   /**
    * @param $configurationJSON
    * @return void
+   * @throws Exception
    */
   private function resetMachine($configurationJSON) : void
   {

@@ -212,6 +212,15 @@ class VendingMachineApplicationServiceTest extends TestCase
     $this->expectException(Exception::class);
     $this->expectExceptionMessage('Unknown command');
 
+    $this->vendingMachine->expects($this->never())
+      ->method('insertCoin');
+
+    $this->vendingMachine->expects($this->never())
+      ->method('sellItem');
+
+    $this->vendingMachine->expects($this->never())
+      ->method('resetConfiguration');
+
     $this->repository->expects($this->never())
       ->method('save');
 

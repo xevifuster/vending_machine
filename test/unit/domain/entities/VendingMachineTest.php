@@ -10,25 +10,27 @@ use app\domain\entities\ItemName;
 use app\domain\entities\VendingMachine;
 use app\domain\services\ChangeCalculatorDomService;
 use Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class VendingMachineTest extends TestCase
 {
-  private CoinInventory&MockObject $operationCoins;
-  private ItemInventory&MockObject $itemInventory;
-  private CoinInventory&MockObject $coinInventory;
-  private ChangeCalculatorDomService&MockObject $changeCalculator;
+  private ?CoinInventory $operationCoins;
+  private ?ItemInventory $itemInventory;
+  private ?CoinInventory $coinInventory;
+  private ?ChangeCalculatorDomService $changeCalculator;
   private VendingMachine $sut;
 
   protected function setUp(): void
   {
     $this->operationCoins = $this->createMock(CoinInventory::class);
-    $this->itemInventory = $this->createMock(ItemInventory::class);
-    $this->coinInventory = $this->createMock(CoinInventory::class);
-    $this->changeCalculator = $this->createMock(ChangeCalculatorDomService::class);
+  }
 
-    $this->sut = new VendingMachine($this->operationCoins, $this->itemInventory, $this->coinInventory,
+  private function configureSut($changeCalculator = true, $itemInventory = true, $coinInventory = true): VendingMachine
+  {
+    $this->changeCalculator = $changeCalculator ? $this->createMock(ChangeCalculatorDomService::class) : null;
+    $this->itemInventory = $itemInventory ? $this->createMock(ItemInventory::class) : null;
+    $this->coinInventory = $coinInventory ? $this->createMock(CoinInventory::class) : null;
+    return new VendingMachine($this->operationCoins, $this->itemInventory, $this->coinInventory,
       $this->changeCalculator);
   }
 
@@ -42,6 +44,8 @@ class VendingMachineTest extends TestCase
     $opCoins = [5 => 10];
     $coins = [100 => 10, 25 => 10];
     $items = ['WATER' => ['quantity' => 5, 'price' => 0.65]];
+
+    $this->sut = $this->configureSut(false);
 
     $this->operationCoins->expects($this->once())
       ->method('resetInventory')
@@ -66,6 +70,8 @@ class VendingMachineTest extends TestCase
    */
   public function test_insertCoins_coin_addCoinToOperationInventory(): void
   {
+    $this->sut = $this->configureSut(false, false, false);
+
     $this->operationCoins->expects($this->once())
       ->method('addCoins')
       ->with(Coin::ONE_EURO);
@@ -81,6 +87,8 @@ class VendingMachineTest extends TestCase
    */
   public function test_moneyRefund_coinsInserted_returnCoinsAndEmptyInventory(): void
   {
+    $this->sut = $this->configureSut(false, false, false);
+
     $this->operationCoins->expects($this->once())
       ->method('getCoins')
       ->willReturn([100 => 2, 25 => 1]);
@@ -100,6 +108,8 @@ class VendingMachineTest extends TestCase
    */
   public function test_moneyRefund_noCoinsInserted_returnEmptyArray(): void
   {
+    $this->sut = $this->configureSut(false, false, false);
+
     $this->operationCoins->expects($this->once())
       ->method('getCoins')
       ->willReturn([]);
@@ -121,6 +131,8 @@ class VendingMachineTest extends TestCase
   public function test_sellItem_notEnoughMoney_throwException(): void
   {
     $item = $this->createMock(Item::class);
+
+    $this->sut = $this->configureSut();
 
     $this->itemInventory->expects($this->once())
       ->method('getItem')
@@ -161,6 +173,8 @@ class VendingMachineTest extends TestCase
   {
     $item = $this->createMock(Item::class);
 
+    $this->sut = $this->configureSut();
+
     $this->itemInventory->expects($this->once())
       ->method('getItem')
       ->willReturn($item);
@@ -200,7 +214,7 @@ class VendingMachineTest extends TestCase
   }
 
   /**
-   * @method sellItem()
+   * @method sellItem
    * @with moreMoneyThanPrice
    * @should returnItemWithChangeAndDecreaseInventory
    */
@@ -208,6 +222,8 @@ class VendingMachineTest extends TestCase
   {
     $item = $this->createMock(Item::class);
     $change = [Coin::TWENTY_FIVE, Coin::TEN];
+
+    $this->sut = $this->configureSut();
 
     $this->itemInventory->expects($this->once())
       ->method('getItem')
